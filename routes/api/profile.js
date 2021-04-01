@@ -23,7 +23,7 @@ router.get('/me', auth, async (req, res) => {
         return res.send(profile);
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Server error.');
+        return res.status(500).send('Server error');
     }
 });
 
@@ -91,5 +91,18 @@ router.post(
         }
     },
 );
+
+// @route   GET api/profile
+// @desc    Get all profiles
+// @access  Public
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        return res.send(profiles);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+});
 
 module.exports = router;
