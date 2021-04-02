@@ -34,4 +34,18 @@ router.post('/', [auth, check('text', 'Text is required.').not().isEmpty()], asy
     }
 });
 
+// @route   Get api/posts
+// @desc    Get all posts
+// @access  Private
+router.get('/', auth, async (req, res) => {
+    try {
+        const posts = await Post.find().sort({ date: -1 });
+
+        return res.send(posts);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(400).send('Server Error');
+    }
+});
+
 module.exports = router;
