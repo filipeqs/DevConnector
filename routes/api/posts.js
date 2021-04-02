@@ -127,15 +127,85 @@ router.put('/unlike/:post_id', auth, async (req, res) => {
         if (!post) return res.status(404).send({ msg: 'Post not found!' });
 
         // Check if post has already been liked
-        if (post.likes.filter((like) => like.user.toString() === req.user.id).length === 0) {
+        if (post.likes.filter((like) => like.user.toString() === req.user.id).length === 0)
             return res.status(400).send({ msg: 'Post has not yet been liked.' });
-        }
 
         post.likes = post.likes.filter((like) => like.user.toString() !== req.user.id);
 
         await post.save();
 
         return res.send(post.likes);
+    } catch (err) {
+        console.error(err.message);
+
+        if (err.kind === 'ObjectId') return res.status(404).send({ msg: 'Post not found!' });
+
+        return res.status(400).send('Server Error');
+    }
+});
+
+// @route   POST api/post/comment/:post_id
+// @desc    Comment on a post
+// @access  Private
+router.post(
+    '/comment/:post_id',
+    [auth, check('text', 'Text is required.').not().isEmpty()],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).send({ errors: errors.array() });
+
+        try {
+            const user = await User.findById(req.user.id).select('-password');
+            const post = await Post.findById(req.params.post_id);
+
+            if (!post) return res.status(404).send({ msg: 'Post not found!' });
+
+            const newComment = {
+                text: req.body.text,
+                name: user.name,
+                avatar: user.avatar,
+                user: req.user.id,
+            };
+
+            post.comments.unshift(newComment);
+            await post.save();
+
+            res.send(post.comments);
+        } catch (err) {
+            console.error(err.message);
+
+            if (err.kind === 'ObjectId') return res.status(404).send({ msg: 'Post not found!' });
+
+            return res.status(400).send('Server Error');
+        }
+    },
+);
+
+// @route   POST api/post/comment/:post_id/:comment_id
+// @desc    Delete comment
+// @access  Private
+router.delete('/comment/:post_id/:comment_id', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        const post = await Post.findById(req.params.post_id);
+
+        if (!post) return res.status(404).send({ msg: 'Post not found!' });
+
+        // Pull out comment
+        const comment = post.comments.find((comment) => comment.id === req.params.comment_id);
+
+        if (!comment) return res.status(404).send({ msg: 'Comment not found.' });
+
+        // Check user
+        if (comment.user.toString() !== req.user.id)
+            return res.status(401).send({ msg: 'User not authorized.' });
+
+        post.comments = post.comments.filter(
+            (comment) => comment.id.toString() !== req.params.comment_id,
+        );
+        await post.save();
+
+        return res.send(post.comments);
     } catch (err) {
         console.error(err.message);
 
