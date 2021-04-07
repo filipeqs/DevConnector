@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
+import Experience from './Experience';
 
 import { getCurrentProfile } from '../../redux/actions/profile';
+import Education from './Education';
 
 const Dashboard = ({ auth: { user }, profile: { profile, loading }, getCurrentProfile }) => {
     useEffect(() => {
@@ -24,6 +26,8 @@ const Dashboard = ({ auth: { user }, profile: { profile, loading }, getCurrentPr
             {profile !== null ? (
                 <Fragment>
                     <DashboardActions />
+                    <Experience experience={profile.experience} />
+                    <Education education={profile.education} />
                 </Fragment>
             ) : (
                 <Fragment>
