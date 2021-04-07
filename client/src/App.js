@@ -16,6 +16,7 @@ import { loadUser } from './redux/actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 import './sass/App.scss';
+import CreateProfile from './components/profile-form/CreateProfile';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -38,6 +39,7 @@ const App = () => {
                             <Route exact path="/register" component={Register} />
                             <Route exact path="/login" component={Login} />
                             <PrivateRoute exact path="/dashboard" component={Dasboard} />
+                            <PrivateRoute exact path="/create-profile" component={CreateProfile} />
                         </Switch>
                     </section>
                 </Fragment>
