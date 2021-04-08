@@ -7,6 +7,7 @@ import Spinner from '../layout/Spinner';
 
 import { getProfileById } from '../../redux/actions/profile';
 import ProfileTop from './ProfileTop';
+import ProfileAbout from './ProfileAbout';
 
 const Profile = ({ profile: { profile, loading }, auth, getProfileById, match }) => {
     useEffect(() => {
@@ -28,6 +29,7 @@ const Profile = ({ profile: { profile, loading }, auth, getProfileById, match })
                     )}
                     <div className="profile-grid my-1">
                         <ProfileTop profile={profile} />
+                        <ProfileAbout profile={profile} />
                     </div>
                 </Fragment>
             )}
