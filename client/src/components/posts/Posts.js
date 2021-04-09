@@ -6,6 +6,7 @@ import Spinner from '../layout/Spinner';
 import PostItem from './PostItem';
 
 import { getPosts } from '../../redux/actions/post';
+import PostForm from './PostForm';
 
 const Posts = ({ post: { loading, posts }, getPosts }) => {
     useEffect(() => {
@@ -20,7 +21,7 @@ const Posts = ({ post: { loading, posts }, getPosts }) => {
             <p className="lead">
                 <i className="fas fa-user"></i> Welcome to the community
             </p>
-            {/* PostForm */}
+            <PostForm />
             <div className="posts">
                 {posts.map((post) => (
                     <PostItem key={post._id} post={post} />
