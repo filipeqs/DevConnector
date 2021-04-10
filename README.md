@@ -47,6 +47,7 @@ The REST API to the example app is described below.
 
 ```bash
 POST /api/users HTTP/1.1
+Host: localhost:5000
 Content-Type: application/json
 Content-Length: 77
 
@@ -80,6 +81,176 @@ Content-Length: 43
     "errors": [
         {
             "msg": "User already exists!"
+        }
+    ]
+}
+```
+
+## Login User
+
+### Request
+
+```bash
+POST /api/auth HTTP/1.1
+Host: localhost:5000
+Content-Type: application/json
+Content-Length: 52
+
+{
+	"email": "foo@gmail.com",
+	"password": "123456"
+}
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 195
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA4OTY0OCwiZXhwIjoxNjE4MTI1NjQ4fQ.He5BsHgc9O6-zQxuHgi7xm3cBCPJqafQs-2iL--cABo"
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 43
+
+{
+    "errors": [
+        {
+            "msg": "Invalid credentials!"
+        }
+    ]
+}
+```
+
+## Get Auth User
+
+### Request
+
+```bash
+GET /api/auth HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA4OTY0OCwiZXhwIjoxNjE4MTI1NjQ4fQ.He5BsHgc9O6-zQxuHgi7xm3cBCPJqafQs-2iL--cABo
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 199
+
+{
+    "_id": "607215d5dc3f813bb0bd9dc0",
+    "name": "Foo",
+    "email": "foo@gmail.com",
+    "avatar": "//www.gravatar.com/avatar/6c0fbec2cc554c35c3d2b8b51840b49d?s=200&r=pg&d=mm",
+    "date": "2021-04-10T21:17:09.135Z",
+    "__v": 0
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Content-Length: 29
+
+{
+    "msg": "Token is not valid!"
+}
+```
+
+## Create and Update Profile
+
+### Request
+
+```bash
+POST /api/profile HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MWM5MTkxMDIwM2Q5MDgwZTA0ZGYyIn0sImlhdCI6MTYxODA2OTgwMiwiZXhwIjoxNjE4MTA1ODAyfQ.cU3L0gjvwPLs9Av9FPTE7m-7dzrJsohv5-LOBZEY3kQ
+Content-Type: application/json
+Content-Length: 455
+
+{
+	"company": "Sel Employed",
+	"status": "Developer",
+	"website": "foo.com",
+	"skills": "Html, CSS, JS, C#, React",
+    "location": "Washington, DC",
+    "bio": "Self Employed Developer",
+    "githubusername": "foo",
+    "instagram": "https://www.instagram.com/foo",
+    "facebook": "https://www.facebook.com/foo",
+    "youtube": "https://www.youtube.com/foo",
+    "twitter": "https://www.twitter.com/foo",
+    "linkedin": "https://www.linkedin.com/foo"
+}
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 544
+
+{
+    "social": {
+        "youtube": "https://youtube.com/foo",
+        "twitter": "https://twitter.com/foo",
+        "instagram": "https://instagram.com/foo",
+        "linkedin": "https://linkedin.com/foo",
+        "facebook": "https://facebook.com/foo"
+    },
+    "skills": [
+        " Html",
+        " CSS",
+        " JS",
+        " C#",
+        " React"
+    ],
+    "_id": "6071c95410203d9080e04df3",
+    "user": "6071c91910203d9080e04df2",
+    "__v": 0,
+    "bio": "Self Employed Developer",
+    "company": "Sel Employed",
+    "date": "2021-04-10T15:50:44.218Z",
+    "education": [],
+    "experience": [],
+    "githubusername": "foo",
+    "location": "Washington, DC",
+    "status": "Developer",
+    "website": "https://foo.com"
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 142
+
+{
+    "errors": [
+        {
+            "msg": "Status is required.",
+            "param": "status",
+            "location": "body"
+        },
+        {
+            "msg": "Skills is required.",
+            "param": "skills",
+            "location": "body"
         }
     ]
 }
