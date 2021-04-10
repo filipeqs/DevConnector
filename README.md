@@ -181,10 +181,10 @@ Content-Type: application/json
 Content-Length: 455
 
 {
-	"company": "Sel Employed",
-	"status": "Developer",
-	"website": "foo.com",
-	"skills": "Html, CSS, JS, C#, React",
+    "company": "Sel Employed",
+    "status": "Developer",
+    "website": "foo.com",
+    "skills": "Html, CSS, JS, C#, React",
     "location": "Washington, DC",
     "bio": "Self Employed Developer",
     "githubusername": "foo",
@@ -253,5 +253,405 @@ Content-Length: 142
             "location": "body"
         }
     ]
+}
+```
+
+## Get Logged in Profile
+
+### Request
+
+```bash
+GET /api/profile/me HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MWM5MTkxMDIwM2Q5MDgwZTA0ZGYyIn0sImlhdCI6MTYxODA2OTgwMiwiZXhwIjoxNjE4MTA1ODAyfQ.cU3L0gjvwPLs9Av9FPTE7m-7dzrJsohv5-LOBZEY3kQ
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 657
+
+{
+    "social": {
+        "youtube": "https://youtube.com/foo",
+        "twitter": "https://twitter.com/foo",
+        "instagram": "https://instagram.com/foo",
+        "linkedin": "https://linkedin.com/foo",
+        "facebook": "https://facebook.com/foo"
+    },
+    "skills": [
+        " Html",
+        " CSS",
+        " JS",
+        " C#",
+        " React"
+    ],
+    "_id": "6071c95410203d9080e04df3",
+    "user": {
+        "_id": "6071c91910203d9080e04df2",
+        "name": "Test User",
+        "avatar": "//www.gravatar.com/avatar/e1128bc3a06f4735b039c9a60ba7c445?s=200&r=pg&d=mm"
+    },
+    "__v": 0,
+    "bio": "Self Employed Developer",
+    "company": "Sel Employed",
+    "date": "2021-04-10T15:50:44.218Z",
+    "education": [],
+    "experience": [],
+    "githubusername": "foo",
+    "location": "Washington, DC",
+    "status": "Developer",
+    "website": "https://foo.com"
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Content-Length: 29
+
+{
+    "msg": "Token is not valid!"
+}
+```
+
+## Add Experience
+
+### Request
+
+```bash
+PUT /api/profile/experience HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MWM5MTkxMDIwM2Q5MDgwZTA0ZGYyIn0sImlhdCI6MTYxODA2OTgwMiwiZXhwIjoxNjE4MTA1ODAyfQ.cU3L0gjvwPLs9Av9FPTE7m-7dzrJsohv5-LOBZEY3kQ
+Content-Type: application/json
+Content-Length: 127
+
+{
+	"title": "Developer",
+	"company": "foo",
+	"location": "USA",
+	"from": "5-10-2020",
+	"current": true,
+	"description": "foo"
+}
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 700
+
+{
+    "social": {
+        "youtube": "https://youtube.com/foo",
+        "twitter": "https://twitter.com/foo",
+        "instagram": "https://instagram.com/foo",
+        "linkedin": "https://linkedin.com/foo",
+        "facebook": "https://facebook.com/foo"
+    },
+    "skills": [
+        " Html",
+        " CSS",
+        " JS",
+        " C#",
+        " React"
+    ],
+    "_id": "6071c95410203d9080e04df3",
+    "user": "6071c91910203d9080e04df2",
+    "__v": 1,
+    "bio": "Self Employed Developer",
+    "company": "Sel Employed",
+    "date": "2021-04-10T15:50:44.218Z",
+    "education": [],
+    "experience": [
+        {
+            "current": true,
+            "_id": "60721acddc3f813bb0bd9dc2",
+            "title": "Developer",
+            "company": "foo",
+            "location": "USA",
+            "from": "2020-05-10T04:00:00.000Z",
+            "description": "foo"
+        }
+    ],
+    "githubusername": "foo",
+    "location": "Washington, DC",
+    "status": "Developer",
+    "website": "https://foo.com"
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 208
+
+{
+    "errors": [
+        {
+            "msg": "Title is required.",
+            "param": "title",
+            "location": "body"
+        },
+        {
+            "msg": "Company is required.",
+            "param": "company",
+            "location": "body"
+        },
+        {
+            "msg": "From date is required.",
+            "param": "from",
+            "location": "body"
+        }
+    ]
+}
+```
+
+## Delete Experience
+
+### Request
+
+```bash
+DELETE /api/profile/experience/60721acddc3f813bb0bd9dc2 HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MWM5MTkxMDIwM2Q5MDgwZTA0ZGYyIn0sImlhdCI6MTYxODA2OTgwMiwiZXhwIjoxNjE4MTA1ODAyfQ.cU3L0gjvwPLs9Av9FPTE7m-7dzrJsohv5-LOBZEY3kQ
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 743
+
+{
+    "social": {
+        "youtube": "https://youtube.com/foo",
+        "twitter": "https://twitter.com/foo",
+        "instagram": "https://instagram.com/foo",
+        "linkedin": "https://linkedin.com/foo",
+        "facebook": "https://facebook.com/foo"
+    },
+    "skills": [
+        " Html",
+        " CSS",
+        " JS",
+        " C#",
+        " React"
+    ],
+    "_id": "6071c95410203d9080e04df3",
+    "user": "6071c91910203d9080e04df2",
+    "__v": 3,
+    "bio": "Self Employed Developer",
+    "company": "Sel Employed",
+    "date": "2021-04-10T15:50:44.218Z",
+    "education": [
+        {
+            "current": false,
+            "_id": "60721b92dc3f813bb0bd9dc3",
+            "school": "foo",
+            "degree": "foo",
+            "fieldofstudy": "Web Development",
+            "from": "2009-01-01T05:00:00.000Z",
+            "to": "2018-12-30T05:00:00.000Z",
+            "description": "foo"
+        }
+    ],
+    "experience": [],
+    "githubusername": "foo",
+    "location": "Washington, DC",
+    "status": "Developer",
+    "website": "https://foo.com"
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Content-Length: 29
+
+{
+    "msg": "Token is not valid!"
+}
+```
+
+## Add Education
+
+### Request
+
+```bash
+PUT /api/profile/education HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MWM5MTkxMDIwM2Q5MDgwZTA0ZGYyIn0sImlhdCI6MTYxODA2OTgwMiwiZXhwIjoxNjE4MTA1ODAyfQ.cU3L0gjvwPLs9Av9FPTE7m-7dzrJsohv5-LOBZEY3kQ
+Content-Type: application/json
+Content-Length: 139
+
+{
+	"school": "foo",
+	"degree": "foo",
+	"fieldofstudy": "Web Development",
+	"from": "1-1-2009",
+	"to": "12-30-2018",
+	"description": "foo"
+}
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 899
+
+{
+    "social": {
+        "youtube": "https://youtube.com/foo",
+        "twitter": "https://twitter.com/foo",
+        "instagram": "https://instagram.com/foo",
+        "linkedin": "https://linkedin.com/foo",
+        "facebook": "https://facebook.com/foo"
+    },
+    "skills": [
+        " Html",
+        " CSS",
+        " JS",
+        " C#",
+        " React"
+    ],
+    "_id": "6071c95410203d9080e04df3",
+    "user": "6071c91910203d9080e04df2",
+    "__v": 2,
+    "bio": "Self Employed Developer",
+    "company": "Sel Employed",
+    "date": "2021-04-10T15:50:44.218Z",
+    "education": [
+        {
+            "current": false,
+            "_id": "60721b92dc3f813bb0bd9dc3",
+            "school": "foo",
+            "degree": "foo",
+            "fieldofstudy": "Web Development",
+            "from": "2009-01-01T05:00:00.000Z",
+            "to": "2018-12-30T05:00:00.000Z",
+            "description": "foo"
+        }
+    ],
+    "experience": [
+        {
+            "current": true,
+            "_id": "60721acddc3f813bb0bd9dc2",
+            "title": "Developer",
+            "company": "foo",
+            "location": "USA",
+            "from": "2020-05-10T04:00:00.000Z",
+            "description": "foo"
+        }
+    ],
+    "githubusername": "foo",
+    "location": "Washington, DC",
+    "status": "Developer",
+    "website": "https://foo.com"
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Content-Length: 287
+
+{
+    "errors": [
+        {
+            "msg": "School is required.",
+            "param": "school",
+            "location": "body"
+        },
+        {
+            "msg": "Degree is required.",
+            "param": "degree",
+            "location": "body"
+        },
+        {
+            "msg": "Field of study is required.",
+            "param": "fieldofstudy",
+            "location": "body"
+        },
+        {
+            "msg": "From date is required.",
+            "param": "from",
+            "location": "body"
+        }
+    ]
+}
+```
+
+## Delete Education
+
+### Request
+
+```bash
+DELETE /api/profile/education/60721b92dc3f813bb0bd9dc3 HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MWM5MTkxMDIwM2Q5MDgwZTA0ZGYyIn0sImlhdCI6MTYxODA2OTgwMiwiZXhwIjoxNjE4MTA1ODAyfQ.cU3L0gjvwPLs9Av9FPTE7m-7dzrJsohv5-LOBZEY3kQ
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 544
+
+{
+    "social": {
+        "youtube": "https://youtube.com/foo",
+        "twitter": "https://twitter.com/foo",
+        "instagram": "https://instagram.com/foo",
+        "linkedin": "https://linkedin.com/foo",
+        "facebook": "https://facebook.com/foo"
+    },
+    "skills": [
+        " Html",
+        " CSS",
+        " JS",
+        " C#",
+        " React"
+    ],
+    "_id": "6071c95410203d9080e04df3",
+    "user": "6071c91910203d9080e04df2",
+    "__v": 4,
+    "bio": "Self Employed Developer",
+    "company": "Sel Employed",
+    "date": "2021-04-10T15:50:44.218Z",
+    "education": [],
+    "experience": [],
+    "githubusername": "foo",
+    "location": "Washington, DC",
+    "status": "Developer",
+    "website": "https://foo.com"
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Content-Length: 29
+
+{
+    "msg": "Token is not valid!"
 }
 ```
