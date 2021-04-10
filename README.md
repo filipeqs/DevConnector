@@ -1305,3 +1305,319 @@ Content-Length: 34
     "msg": "No Github profile found."
 }
 ```
+
+## Add Post
+
+### Request
+
+```bash
+POST /api/posts HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5MjE1NiwiZXhwIjoxNjE4MTI4MTU2fQ.dAOuZsxV9McpsmcibHXzpV2LDE-iaNs9tgEalby-jI4
+Content-Type: application/json
+Content-Length: 18
+
+{
+	"text": "foo"
+}
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 247
+
+{
+    "_id": "6072281d233211943495cc55",
+    "text": "foo",
+    "name": "Foo",
+    "avatar": "//www.gravatar.com/avatar/6c0fbec2cc554c35c3d2b8b51840b49d?s=200&r=pg&d=mm",
+    "user": "607215d5dc3f813bb0bd9dc0",
+    "likes": [],
+    "comments": [],
+    "date": "2021-04-10T22:35:09.354Z",
+    "__v": 0
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Content-Length: 29
+
+{
+    "msg": "Token is not valid!"
+}
+```
+
+## Get all Posts
+
+### Request
+
+```bash
+GET /api/posts HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5NDI5NSwiZXhwIjoxNjE4MTMwMjk1fQ.WatLaJ52zp2Z4foXia3I8vWrFKMYAZ368I2BZnIuo44
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 249
+
+[
+    {
+        "_id": "6072281d233211943495cc55",
+        "text": "foo",
+        "name": "Foo",
+        "avatar": "//www.gravatar.com/avatar/6c0fbec2cc554c35c3d2b8b51840b49d?s=200&r=pg&d=mm",
+        "user": "607215d5dc3f813bb0bd9dc0",
+        "likes": [],
+        "comments": [],
+        "date": "2021-04-10T22:35:09.354Z",
+        "__v": 0
+    }
+]
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Content-Length: 29
+
+{
+    "msg": "Token is not valid!"
+}
+```
+
+## Get Post by Id
+
+### Request
+
+```bash
+GET /api/posts HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5NDI5NSwiZXhwIjoxNjE4MTMwMjk1fQ.WatLaJ52zp2Z4foXia3I8vWrFKMYAZ368I2BZnIuo44
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 247
+
+{
+    "_id": "6072281d233211943495cc55",
+    "text": "foo",
+    "name": "Foo",
+    "avatar": "//www.gravatar.com/avatar/6c0fbec2cc554c35c3d2b8b51840b49d?s=200&r=pg&d=mm",
+    "user": "607215d5dc3f813bb0bd9dc0",
+    "likes": [],
+    "comments": [],
+    "date": "2021-04-10T22:35:09.354Z",
+    "__v": 0
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 25
+
+{
+    "msg": "Post not found!"
+}
+```
+
+## Like a Post
+
+### Request
+
+```bash
+PUT /api/posts/like/6072281d233211943495cc55 HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5NDI5NSwiZXhwIjoxNjE4MTMwMjk1fQ.WatLaJ52zp2Z4foXia3I8vWrFKMYAZ368I2BZnIuo44
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 70
+
+[
+    {
+        "_id": "607229ea233211943495cc56",
+        "user": "607215d5dc3f813bb0bd9dc0"
+    }
+]
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 25
+
+{
+    "msg": "Post not found!"
+}
+```
+
+## Unlike a Post
+
+### Request
+
+```bash
+PUT /api/posts/unlike/6072281d233211943495cc55 HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5NDI5NSwiZXhwIjoxNjE4MTMwMjk1fQ.WatLaJ52zp2Z4foXia3I8vWrFKMYAZ368I2BZnIuo44
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 2
+
+[]
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 25
+
+{
+    "msg": "Post not found!"
+}
+```
+
+## Add Comment to Post
+
+### Request
+
+```bash
+POST /api/posts/comment/6072281d233211943495cc55 HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5NDI5NSwiZXhwIjoxNjE4MTMwMjk1fQ.WatLaJ52zp2Z4foXia3I8vWrFKMYAZ368I2BZnIuo44
+Content-Type: application/json
+Content-Length: 18
+
+{
+	"text": "foo"
+}
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 216
+
+[
+    {
+        "_id": "60722aaf233211943495cc57",
+        "text": "foo",
+        "name": "Foo",
+        "avatar": "//www.gravatar.com/avatar/6c0fbec2cc554c35c3d2b8b51840b49d?s=200&r=pg&d=mm",
+        "user": "607215d5dc3f813bb0bd9dc0",
+        "date": "2021-04-10T22:46:07.800Z"
+    }
+]
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 25
+
+{
+    "msg": "Post not found!"
+}
+```
+
+## Delete Comment
+
+### Request
+
+```bash
+DELETE /api/posts/comment/:postId/:commentId HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5NDI5NSwiZXhwIjoxNjE4MTMwMjk1fQ.WatLaJ52zp2Z4foXia3I8vWrFKMYAZ368I2BZnIuo44
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 2
+
+[]
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 28
+
+{
+    "msg": "Comment not found."
+}
+```
+
+## Remove Post
+
+### Request
+
+```bash
+DELETE /api/posts/6072281d233211943495cc55 HTTP/1.1
+Host: localhost:5000
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA3MjE1ZDVkYzNmODEzYmIwYmQ5ZGMwIn0sImlhdCI6MTYxODA5NDI5NSwiZXhwIjoxNjE4MTMwMjk1fQ.WatLaJ52zp2Z4foXia3I8vWrFKMYAZ368I2BZnIuo44
+```
+
+### Successful Response
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 23
+
+{
+    "msg": "Post removed."
+}
+```
+
+### Failed Response
+
+```bash
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 25
+
+{
+    "msg": "Post not found!"
+}
+```
