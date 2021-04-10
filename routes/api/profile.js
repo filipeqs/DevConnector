@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const normalize = require('normalize');
+const normalize = require('normalize-url');
 const { check, validationResult } = require('express-validator');
 
 const auth = require('../../middleware/auth');
