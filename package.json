@@ -19,7 +19,7 @@
     "bugs": {
         "url": "https://github.com/filipeqs/DevConnector/issues"
     },
-    "homepage": "https://github.com/filipeqs/DevConnector#readme",
+    "homepage": "https://filipe-dev-connector.herokuapp.com",
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "dotenv": "^8.2.0",
