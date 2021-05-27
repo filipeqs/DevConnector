@@ -2,7 +2,7 @@
 
 Blog app for developers where users are able to create a profile, create posts and interact with other developers.
 
-Check the demo hosted on https://filipe-dev-connector.herokuapp.com/.
+Check the demo hosted on https://filipe-dev-connector.herokuapp.com/
 
 ---
 
