@@ -22,6 +22,15 @@ $ cd client
 $ npm install
 ```
 
+Create .env file at the root of the project to set the following environment variables
+
+```bash
+$ GITHUB_CLIENT_ID=
+$ GITHUB_SECRET=
+$ JWT_SECRET=
+$ MONGO_URI=
+```
+
 Run project from main folder
 
 ```bash
@@ -39,7 +48,7 @@ $ npm run dev
 
 # REST API
 
-The REST API to the example app is described below.
+The REST API is described below.
 
 ## Register User
 
