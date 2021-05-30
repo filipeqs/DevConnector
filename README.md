@@ -22,7 +22,7 @@ $ cd client
 $ npm install
 ```
 
-Run it from maind folder
+Run project from main folder
 
 ```bash
 $ npm run dev
